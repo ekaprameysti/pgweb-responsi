@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIPHORA: Seaside Symphony Rembang</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="plugin/leaflet-search-master/dist/leaflet-search.min.css">
+    <link rel="stylesheet" href="plugin/Leaflet.defaultextent-master/dist/leaflet.defaultextent.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff;
+        }
+
+        header {
+            background-color: #2a3d66;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            position: relative;
+            background-image: url('icon/cover1.jpg'); /* Ganti dengan path gambar Anda */ 
+            background-size: cover; 
+            background-position: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            padding-top: 120px;
+            /* Memberi ruang untuk logo */
+        }
+
+        .logo-container {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+            
+            border-radius: 50%;
+            padding: 10px;
+            box-shadow: 0 0 0px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
+            border: 1px solid white;
+            /* Outline warna putih */
+        }
+
+        .header-image-container img { 
+            width: 100%; 
+            height: auto; 
+            margin-top: 20px; 
+            border-radius: 10px;
+        }
+
+        /* Navbar container */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            /* Membagi elemen kiri dan kanan */
+            align-items: center;
+            /* Vertikal tengah */
+            background-color: #333;
+            /* Warna background */
+            padding: 0 20px;
+            /* Padding kiri dan kanan */
+        }
+
+        /* Navbar kiri (judul/logo) */
+        .nav-left {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            /* Warna teks judul/logo */
+        }
+
+        /* Navbar kanan (menu navigasi) */
+        .nav-right {
+            display: flex;
+            /* Menu navigasi menjadi fleksibel */
+        }
+
+        .nav-right a {
+            padding: 14px 20px;
+            color: white;
+            /* Warna teks */
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+            /* Transisi efek hover */
+        }
+
+        .nav-right a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        /* Gaya untuk membuat navigasi tetap berada di atas saat discroll */
+        .sticky-nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            /* Memastikan navigasi tetap di atas elemen lain */
+            background-color: #333;
+            /* Tambahkan latar belakang untuk navigasi */
+        }
+
+        .carousel-container {
+            max-width: 100%;
+            /* Set the maximum width of the carousel */
+            margin: 0;
+            /* Center the carousel horizontally */
+            padding: 0;
+        }
+
+        .carousel-item {
+            height: 57vh;
+            background-color: #777;
+            color: white;
+            position: relative;
+            background-size: cover;
+            background-position: center center;
+            border-radius: 0;
+            /* Add border radius for rounded corners */
+            overflow: hidden;
+            /* Ensure content stays within rounded corners */
+        }
+
+        .carousel-caption {
+            bottom: 20%;
+            text-align: left;
+        }
+
+        .carousel-caption h1 {
+            font-size: 3rem;
+        }
+
+        .carousel-caption p {
+            font-size: 1.5rem;
+        }
+
+        .carousel-caption a {
+            display: inline-block;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .carousel-caption a:hover {
+            background-color: #0056b3;
+        }
+
+
+        .section {
+            display: none;
+            padding: 20px;
+        }
+
+        .section.home {
+            padding: 0 !important;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .cta-button {
+            background-color: #0000FF;
+            color: white;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            margin: 20px auto;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            /* Membesarkan gambar saat di-hover */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            /* Menambahkan bayangan yang lebih besar saat di-hover */
+            background-color: #1a2c4f;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #2a3d66;
+            color: white;
+        }
+
+
+
+        .culture-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .culture-item {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .culture-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .culture-item img {
+            width: 100%;
+            /* Mengatur lebar gambar sesuai dengan lebar kontainer */
+            height: 200px;
+            /* Mengatur tinggi gambar */
+            object-fit: cover;
+            /* Memastikan gambar menutupi area tanpa distorsi */
+            border-bottom: 4px solid #2a3d66;
+        }
+
+        .culture-item h3 {
+            margin: 10px 0;
+            color: #2a3d66;
+            padding: 0 10px;
+        }
+
+        #kecamatan p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            text-align: justify;
+            /* Meratakan teks kanan kiri */
+        }
+
+        #map {
+            height: 100vh;
+            /* Set height of the map to full view height */
+            width: 100%;
+            /* Set width of the map to full width */
+        }
+
+        .map-container {
+            height: 100%;
+            /* Mengatur tinggi peta */
+            width: 100%;
+            /* Mengatur lebar peta */
+            max-width: 1000px;
+            /* Maksimal lebar peta */
+            margin: 20px auto;
+            /* Menempatkan peta di tengah */
+            border: 2px solid #2a3d66;
+            /* Border untuk peta */
+        }
+
+        .gallery-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .gallery-item {
+            position: relative;
+            width: 400px;
+            /* Mengatur lebar gambar lebih besar */
+            height: 300px;
+            /* Mengatur tinggi gambar lebih besar */
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .gallery-description {
+            text-align: justify;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .splash-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .splash-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        .splash-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            z-index: 2;
+        }
+
+
+        .splash-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('pantai/splash3.jpeg');
+            /* Ganti dengan jalur gambar Anda */
+            background-size: cover;
+            background-position: center;
+            color: white;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .splash-screen h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .splash-screen button {
+            background-color: #1a2c4f;
+            color: white;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .splash-screen button:hover {
+            background-color: #2a3d66;
+        }
+
+        .carousel-inner .carousel-item img {
+            max-height: 500px;
+            /* Mengatur tinggi maksimum gambar*/
+            object-fit: cover;
+            max-width: 60%;
+            /* Membatasi lebar gambar */
+            margin: 0 auto;
+            /* Menengahkan gambar*/
+            border-radius: 5%;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .modal-body {
+            font-size: 16px;
+        }
+
+        .modal-body table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .modal-body table,
+        .modal-body th,
+        .modal-body td {
+            border: 1px solid #ddd;
+        }
+
+        .modal-body th,
+        .modal-body td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        .modal-body th {
+            background-color: #f2f2f2;
+        }
+
+        .leaflet-popup-content h2 {
+            text-align: center;
+            /* Mengatur teks ke tengah */
+            margin-top: 0;
+            /* Mengatur margin atas ke nol */
+        }
+
+        .welcome-container {
+            text-align: center;
+            margin: 20px;
+            position: relative;
+        }
+
+        .welcome-box {
+            border: 2px solid black;
+            padding: 20px;
+            background-color: #f8f8f8;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            max-width: 80%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-heading {
+            font-size: 1.5rem;
+            position: relative;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #f8f8f8;
+            padding: 0 10px;
+            z-index: 2;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .testimonials,
+        .featured-beaches,
+        .upcoming-events,
+        .conservation-efforts,
+        .cultural-highlights,
+        .interactive-map-preview {
+            text-align: center;
+            margin: 20px;
+            padding: 10px;
+            background: linear-gradient(145deg, #e0e5ec, #ffffff);
+            border-radius: 15px;
+            box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            transition: background-color 0.3s ease;
+
+        }
+
+        .testimonials h5:hover,
+        .featured-beaches h5:hover,
+        .upcoming-events h5:hover,
+        .conservation-efforts h5:hover,
+        .cultural-highlights h5:hover,
+        .interactive-map-preview h5:hover {
+            transform: translateY(-10px);
+            background-color: #e6f7ff;
+            /* Lighter background on hover */
+        }
+
+        .testimonials h5,
+        .featured-beaches h5,
+        .upcoming-events h5,
+        .conservation-efforts h5,
+        .cultural-highlights h5,
+        .interactive-map-preview h5 {
+            margin-top: 10px;
+            font-size: 1.3rem;
+            color: #0000FF;
+        }
+
+        .justify-text {
+            text-align: justify;
+        }
+
+        .cta-button-desc {
+            background-color: #008CBA;
+            color: white;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .cta-button-desc:hover {
+            background-color: #005f5f;
+            color: white;
+        }
+
+        a {
+            color: #0000FF;
+            /* Warna teks tautan */
+            text-decoration: none;
+            /* Menghilangkan garis bawah pada tautan */
+        }
+
+        a:hover {
+            text-decoration: underline;
+            /* Menambahkan garis bawah pada tautan saat di-hover */
+        }
+
+        html {
+            scroll-behavior: smooth;
+            /* Menambahkan scrolling yang halus */
+        }
+
+        .facility-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .facility-item {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            width: 300px;
+            height: 320px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .facility-item:hover {
+            transform: scale(1.05);
+            /* Membesarkan gambar saat di-hover */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            /* Menambahkan bayangan yang lebih besar saat di-hover */
+        }
+
+        .facility-item img {
+            width: 100%;
+            height: 200px;
+        }
+
+        .facility-item h5 {
+            background-color: #007BFF;
+            color: white;
+            margin: 0;
+            padding: 10px 0;
+        }
+
+        .facility-item p {
+            padding: 10px;
+        }
+
+        .section-feedback {
+            padding: 20px;
+            margin: 40px auto;
+            max-width: 800px;
+            background: linear-gradient(145deg, #e0e5ec, #ffffff);
+            border-radius: 15px;
+            box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .section-feedback:hover {
+            transform: translateY(-10px);
+        }
+
+        .section-creator,
+        .section-user-feedback {
+            padding: 20px;
+            margin: 40px auto;
+            max-width: 800px;
+            background: linear-gradient(145deg, #e0e5ec, #ffffff);
+            border-radius: 15px;
+            box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .section-user-feedback:hover {
+            transform: translateY(-10px);
+        }
+
+        .section-feedback h2 {
+            color: #007BFF;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .section-creator h2,
+        .section-user-feedback h2 {
+            color: #007BFF;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .section-feedback p {
+            color: #333;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .section-feedback a {
+            display: inline-block;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .section-feedback a:hover {
+            background-color: #0056b3;
+        }
+
+        .section-creator {
+            text-align: center;
+            margin: 40px auto;
+            max-width: 800px;
+            padding: 20px;
+            background: linear-gradient(145deg, #e0e5ec, #ffffff);
+            border-radius: 15px;
+            box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+            transition: transform 0.3s;
+        }
+
+        .section-creator:hover {
+            transform: translateY(-10px);
+        }
+
+        .creator-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: box-shadow 0.3s;
+        }
+
+        .creator-photo:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #2a3d66;
+        }
+
+        .bio {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .social-links a {
+            color: #007BFF;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #0056b3;
+        }
+
+        .feedback-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .feedback-item {
+            position: relative;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .feedback-item h4 {
+            margin: 0 0 10px;
+            font-size: 1.2rem;
+        }
+
+        .feedback-item .email {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .feedback-item p {
+            margin: 10px 0;
+        }
+
+        .feedback-item .rating {
+            font-weight: bold;
+            color: #007BFF;
+        }
+
+        .feedback-item .timestamp {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+
+        .feedback-item button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #FF6347;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .feedback-item button.edit {
+            right: 90px;
+            background-color: #4CAF50;
+        }
+
+        .feedback-item button.edit:hover {
+            background-color: #45a049;
+        }
+
+        .feedback-item button.delete:hover {
+            background-color: #FF4500;
+        }
+
+        .button-container {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .input-button {
+            background-color: blue;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .input-button:hover {
+            background-color: darkblue;
+        }
+
+        .btn-custom {
+            padding: 15px 30px;
+            font-size: 18px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+
+        .map-thumbnail {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+
+
+        .stats {
+            background: #007bff;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="splash-screen" id="splash-screen">
+        <h1>Welcome to Seaside Symphony</h1>
+        <h5>Discover the Hidden Coastal Wonders of Rembang</h5>
+        <button onclick="showMainPage()">Let's Explore!</button>
+    </div>
+
+    <div id="main-content" style="display: none;">
+        <header>
+            <div class="logo-container">
+                <img src="icon/logo.png" alt="Logo">
+            </div>
+            <h1>Seaside Symphony Rembang</h1>
+            <h5>Discover the Hidden Coastal Wonders of Rembang</h5>
+        </header>
+
+        <div class="nav">
+            <div class="nav-left">
+                <a class="navbar-brand" href="map.html"><i class="fa-solid fa-map-location-dot"></i> SIPHORA</a>
+            </div>
+            <div class="nav-right">
+                <a href="#home" onclick="showSection('home')">Home</a>
+                <a href="#deskripsi" onclick="showSection('deskripsi')">Description</a>
+                <a href="#penduduk" onclick="showSection('penduduk')">Area Profile</a>
+                <a href="#kecamatan" onclick="showSection('kecamatan')">Coastal Culture</a>
+                <a href="#website" onclick="showSection('website')">Database</a>
+                <a href="#galeri" onclick="showSection('galeri')">Facilities</a>
+                <a href="#peta" onclick="showSection('peta')">Maps</a>
+                <a href="#kritik-dan-saran" onclick="showSection('kritik-dan-saran')">Gallery</a>
+                <a href="#pembuat" onclick="showSection('pembuat')">Feedback & Creator</a>
+            </div>
+        </div>
+
+
+        <div id="home" class="section active">
+            <div class="carousel-container">
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active" style="background-image: url('pantai/carousel/rembang.jpg');">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h1>Welcome to Seaside Symphony</h1>
+                                <p>Your gateway to exploring the pristine and hidden beaches of Rembang, Central Java.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="carousel-item" style="background-image: url('pantai/carousel/dampoawang.jpg');">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h1>Discover Hidden Gems</h1>
+                                <p>Plan your next adventure with our detailed maps and guides.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item" style="background-image: url('pantai/carousel/karangjahe.jpg');">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h1>Experience Coastal Beauty</h1>
+                                <p>Unwind and relax on the serene shores of Rembang.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+            <div class="welcome-container">
+                <div class="welcome-box">
+                    <h5 class="welcome-heading">WELCOME TO SIPHORA</h5>
+                    <p>Seaside Symphony is your ultimate gateway to uncovering the pristine and hidden beaches of
+                        Rembang, Central Java. Our comprehensive WebGIS platform provides you with detailed maps and
+                        in-depth information on the finest coastal destinations in the region. Whether you’re seeking
+                        serene shores or hidden gems, Seaside Symphony is here to guide your next adventure.</p>
+                </div>
+            </div>
+            <button class="cta-button" onclick="showSection('peta')">Explore the Beaches</button>
+            <div class="welcome-container">
+                <div class="welcome-box">
+                    <p>Experience the beauty of Rembang's untouched coastline! 🌊 Enjoy the wonder of our serene
+                        beaches, revel in the tranquility, and explore the hidden gems that await you. Ready for your
+                        next adventure? Click the button above and let the exploration begin. Don't miss the chance to
+                        create unforgettable memories with your loved ones. 🌴✨</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="deskripsi" class="section">
+            <h2>Description</h2>
+            <p class="justify-text">Seaside Symphony is a WebGIS platform that integrates interactive map technology to
+                introduce the coastal
+                charm of Rembang, Central Java.
+                Using detailed digital maps, this platform provides guidance to users for exploring hidden beaches rich
+                in natural beauty, such as untouched shores, natural bays, and picturesque coastal areas.
+                This WebGIS includes comprehensive information on each tourist destination, from location descriptions,
+                attractions, to the most efficient travel routes to reach these places.
+                Additionally, users can find various facilities available around the destinations, such as
+                accommodations, dining spots, and recreational areas, as well as learn about the history or culture
+                associated with each location.</p>
+            <p class="justify-text">The main goal of Seaside Symphony is to promote sustainable tourism and educate
+                visitors about the
+                importance of preserving nature.
+                Through this platform, visitors can plan their trips more easily and comprehensively while delving into
+                the natural and cultural wealth of Rembang's coast.
+                With a mission to inspire future generations to care for the environment and introduce Rembang as an
+                unforgettable beach tourism destination, Seaside Symphony aims to be the primary reference for travelers
+                who want to explore the hidden beauty of Central Java's coast.</p>
+            <div class="testimonials">
+                <h5>Testimonials</h5>
+                <p>"Seaside Symphony made our trip to Rembang unforgettable! The detailed maps and information were
+                    incredibly helpful." - Amanda T.</p>
+                <p>"I discovered beautiful hidden beaches thanks to Seaside Symphony. Highly recommended!" - A. Nadzif.
+                </p>
+                <button class="cta-button-desc" onclick="showSection('pembuat')">Add Here</button>
+            </div>
+            <div class="featured-beaches">
+                <h5>Featured Beaches</h5>
+                <p><strong>Pantai Karangjahe:</strong> A stunning beach known for its crystal-clear waters and white
+                    sands.</p>
+                <p><strong>Pantai Dampo Awang:</strong> An idyllic spot perfect for relaxation and enjoying sunset
+                    views.</p>
+                <button class="cta-button-desc" onclick="showSection('peta')">Explore the Beaches</button>
+            </div>
+            <div class="upcoming-events">
+                <h5>Upcoming Events</h5>
+                <p><strong>Festival Layang-Layang:</strong> Join us for a celebration of colorful kites, local culture,
+                    food, and music.</p>
+                <a href="https://diswaymuria.id/read/343/festival-layang-layang-rembang-keindahan-langit-penuh-warna-di-pantai-utara-jawa"
+                    target="_blank">
+                    <button class="cta-button-desc">Learn More</button> </a>
+            </div>
+            <div class="conservation-efforts">
+                <h5>Conservation Efforts</h5>
+                <p>We are committed to preserving the natural beauty of Rembang's coastline. Learn how you can help
+                    protect our beaches.</p>
+                <a href="https://dinaslh.rembangkab.go.id" target="_blank">
+                    <button class="cta-button-desc">Support Our Beaches</button> </a>
+            </div>
+            <div class="cultural-highlights">
+                <h5>Cultural Highlights</h5>
+                <p>Explore the rich cultural heritage of Rembang, from traditional crafts to local festivals and
+                    historical sites.</p>
+                <button class="cta-button-desc" onclick="showSection('kecamatan')">Explore the Culture</button>
+            </div>
+        </div>
+
+        <div id="penduduk" class="section">
+            <h2>Area Profile</h2>
+            <p style="text-align: justify;">Rembang Regency (Javanese: Hanacaraka: ꦉꦩ꧀ꦧꦁ, Pegon: رمباڠ, translit. Rembang) is a regency located in Central Java Province, Indonesia. In mid-2024, the population of Rembang Regency was 662,787 people. Its capital is Rembang City District. Rembang Regency is located in the northeastern tip of Central Java Province and is traversed by the North Coast Road of Java (Pantura Road), located at coordinates 111° 00'–111° 30' East Longitude and 6° 30'–7° 6' South Latitude. The Java Sea lies to its north, with the terrain generally being lowland with a maximum elevation of approximately 70 meters above sea level. </p>
+            <p style="text-align: justify;">The southern part of Rembang Regency is a hilly area, part of the North Limestone Mountains, with peaks at Mount Butak (679 meters) and Mount Gembes (682 meters), which erupted around the 1980s and 1990s. In the northern part, there are hills with the peak at Mount Lasem (elevation 806 meters), which erupted around 1992. For irrigation, Rembang Regency has 31 rivers and 44 lakes. In the regency area, there are 31 rivers, with Kali Modong River, Kali Jeruju River, and Kali Lasem River being the largest rivers, all flowing into the Java Sea. Among them is the Kali Lasem River, which has been canalized since the 1980s, precisely during the era of Sutikno as Regent of Rembang (in office from 1979 to 1984), and has been normalized since 2013 to prevent flooding. The borders include:</p>
+            <div class="card-body" style="display: flex; justify-content: center;">
+                <table class="table-arrea" style="border: 2px solid #2a3d66; border-collapse: collapse; width: 40%;">
+                    <thead>
+                        <tr style="background-color: #2a3d66; color: white;">
+                            <th style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">BATAS</th>
+                            <th style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">WILAYAH</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="border: 2px solid #2a3d66; padding: 8px;">Utara</td>
+                            <td style="border: 2px solid #2a3d66; padding: 8px;">Laut Jawa</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 2px solid #2a3d66; padding: 8px;">Timur</td>
+                            <td style="border: 2px solid #2a3d66; padding: 8px;">Kabupaten Tuban dan Kota Jatirogo, Jawa
+                                Timur</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 2px solid #2a3d66; padding: 8px;">Selatan</td>
+                            <td style="border: 2px solid #2a3d66; padding: 8px;">Kabupaten Blora</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 2px solid #2a3d66; padding: 8px;">Barat</td>
+                            <td style="border: 2px solid #2a3d66; padding: 8px;">Kabupaten Pati</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="map-container">
+                <div class="mapouter">
+                    <div class="gmap_canvas"><iframe width="100%" height="100%" id="gmap_canvas"
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d272721.91725163977!2d111.4630628225557!3d-6.7623252555544076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e773d4d8daf8c51%3A0x3027a76e352bb10!2sKabupaten%20Rembang%2C%20Jawa%20Tengah!5e1!3m2!1sid!2sid!4v1734356364266!5m2!1sid!2sid" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            href="https://textcaseconvert.com"></a><br><a href="https://www.tabclocktab.com"></a><br>
+                        <style>
+                            .mapouter {
+                                position: relative;
+                                text-align: center;
+                                height: 100%;
+                                width: 100%;
+                            }
+                        </style><a href="https://www.ongooglemaps.com">google maps embed</a>
+                        <style>
+                            .gmap_canvas {
+                                overflow: hidden;
+                                background: none !important;
+                                height: 100%;
+                                width: 100%;
+                            }
+                        </style>
+                    </div>
+                    
+                    </a>
+                </div>
+
+            </div>
+
+            <table class="table-area"
+                style="border: 2px solid #2a3d66; border-collapse: collapse; width: 50%; margin: 20px auto;">
+                <thead>
+                    <tr style="background-color: #2a3d66; color: white;">
+                        <th style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">NO</th>
+                        <th style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">DAFTAR NAMA KECAMATAN
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">1</td>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">Kecamatan Kragan</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">2</td>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">Kecamatan Sarang</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">3</td>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">Kecamatan Sedan</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">4</td>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">Kecamatan Pamotan</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">5</td>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">Kecamatan Sale</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">6</td>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">Kecamatan Gunem</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">7</td>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">Kecamatan Sluke</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">8</td>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">Kecamatan Lasem</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">9</td>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">Kecamatan Rembang</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">10</td>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">Kecamatan Pancur</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">11</td>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">Kecamatan Sulang</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">12</td>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">Kecamatan Kaliori</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">13</td>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">Kecamatan Sumber</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">14</td>
+                        <td style="border: 2px solid #2a3d66; padding: 8px; text-align: center;">Kecamatan Bulu</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h2>Data Source</h2>
+            <div class="gallery-container">
+                <div class="gallery-item">
+                    <a href="https://rupabumi.rembangkab.go.id/" target="_blank">
+                        <img src="icon/sssymphony.png" alt="Symphony">
+                        <div class="gallery-caption">rupabumi.rembangkab.go.id</div>
+                    </a>
+                </div>
+                <div class="gallery-item">
+                    <a href="https://rembangkab.go.id/" target="_blank">
+                        <img src="icon/seaside.png" alt="Seaside">
+                        <div class="gallery-caption">rembangkab.go.id</div>
+                    </a>
+                </div>
+                <div class="gallery-item">
+                    <a href="https://dinaslh.rembangkab.go.id/" target="_blank">
+                        <img src="icon/rembang.png" alt="Rembang">
+                        <div class="gallery-caption">dinaslh.rembangkab.go.id</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kecamatan" class="section">
+            <h2>Coastal Culture</h2>
+            <p>Rembang Regency boasts a rich and diverse cultural heritage. These cultures not only provide
+                entertainment for the local community but also serve as attractions for visiting tourists. Here are some
+                coastal cultures that are famous in Rembang:</p>
+            <div class="culture-grid">
+                <div class="culture-item">
+                    <a href="pathol_sarang.html">
+                        <img src="pantai/budaya/patholsarang.jpg" alt="Pathol Sarang">
+                        <h3>Pathol Sarang</h3>
+                    </a>
+                </div>
+                <div class="culture-item">
+                    <a href="sedekah_laut.html">
+                        <img src="pantai/budaya/sedekahlaut.jpg" alt="Sedekah Laut">
+                        <h3>Sedekah Laut</h3>
+                    </a>
+                </div>
+                <div class="culture-item">
+                    <a href="tari_gandario.html">
+                        <img src="pantai/budaya/tarigandario.jpg" alt="Tari Gandario">
+                        <h3>Tari Gandario</h3>
+                    </a>
+                </div>
+                <div class="culture-item">
+                    <a href="tong_tong_klek.html">
+                        <img src="pantai/budaya/tong.jpg" alt="Tong Tong Klek">
+                        <h3>Tong Tong Klek</h3>
+                    </a>
+                </div>
+                <div class="culture-item">
+                    <a href="emprak.html">
+                        <img src="pantai/budaya/tariemprak.jpg" alt="Emprak">
+                        <h3>Emprak</h3>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="website" class="section">
+            <h2>Database</h2>
+            <p class="justify-text">Welcome to the Seaside Symphony Database page, your central hub for information
+                about the beautiful beaches in Rembang. In this section, you will find detailed information about
+                various beaches scattered across the Rembang area. Each entry in our database includes important details
+                such as the name of the beach, the village, the district, as well as the latitude and longitude
+                coordinates.
+                This page is designed to help you navigate and explore the beauty of Rembang's beaches. With detailed
+                information, you can plan your trip more easily and efficiently. Don't hesitate to contact us if you
+                need further information or have any questions.</p>
+            <p>For more information or to provide feedback, please click the button below:</p>
+            <button onclick="showSection('pembuat')"
+                style="background-color: blue; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">Any
+                Question?</button>
+            <div id="content"></div>
+            <!-- Tombol untuk Mengarahkan ke index.php -->
+            <div class="button-container">
+                <button class="input-button" onclick="location.href='index.php'">View Table Data</button>
+            </div>
+            <!-- Tombol untuk Mengarahkan ke indexx.html -->
+            <div class="button-container">
+                <button class="input-button" onclick="location.href='indexx.html'">Input Data</button>
+            </div>
+        </div>
+
+        <div id="galeri" class="section">
+            <h2>Facilities</h2>
+            <p class="justify-text">Explore the top-notch facilities available at our coastal paradise. From
+                pristine
+                beaches to luxurious amenities, we have everything to make your stay unforgettable.</p>
+            <div class="facility-gallery">
+                <div class="facility-item">
+                    <img src="pantai/fasilitas/parkir.jpg" alt="Parking Area">
+                    <h5>Parking Area</h5>
+                    <p>Parking spaces for two-wheeled and four-wheeled vehicles</p>
+                </div>
+                <div class="facility-item">
+                    <img src="pantai/fasilitas/toilet.jpeg" alt="Toilets and Shower Rooms">
+                    <h5>Toilets and Shower Rooms</h5>
+                    <p>Sanitary facilities for bathing and cleaning up</p>
+                </div>
+                <div class="facility-item">
+                    <img src="pantai/fasilitas/gazebo.jpg" alt="Gazebos or Shelters">
+                    <h5>Gazebos or Shelters</h5>
+                    <p>Areas for resting and sheltering from the sun</p>
+                </div>
+                <div class="facility-item">
+                    <img src="pantai/fasilitas/kios.jpg" alt="Food Stalls or Kiosks">
+                    <h5>Food Stalls or Kiosks</h5>
+                    <p>Places selling food, drinks, and beach souvenirs</p>
+                </div>
+                <div class="facility-item">
+                    <img src="pantai/fasilitas/rental.jpg" alt="Equipment Rental">
+                    <h5>Equipment Rental</h5>
+                    <p>Rentals for items like swim rings, boats, jet skis, or surfboards</p>
+                </div>
+                <div class="facility-item">
+                    <img src="pantai/fasilitas/boardwalk.jpg" alt="Boardwalk">
+                    <h5>Boardwalk</h5>
+                    <p>Paths for leisurely walks around the beach</p>
+                </div>
+                <div class="facility-item">
+                    <img src="pantai/fasilitas/play.jpg" alt="Children's Play Area">
+                    <h5>Children's Play Area</h5>
+                    <p>Play facilities like swings or sand areas for children</p>
+                </div>
+                <div class="facility-item">
+                    <img src="pantai/fasilitas/trashbin.jpg" alt="Trash Bins">
+                    <h5>Trash Bins</h5>
+                    <p>Cleanliness facilities to keep the beach clean</p>
+                </div>
+                <div class="facility-item">
+                    <img src="pantai/fasilitas/tower.jpg" alt="Lifeguard Tower">
+                    <h5>Lifeguard Tower</h5>
+                    <p>A spot where lifeguards monitor visitors' safety</p>
+                </div>
+                <div class="facility-item">
+                    <img src="pantai/fasilitas/boardinfo.jpg" alt="Information Boards">
+                    <h5>Information Boards</h5>
+                    <p>Signs, beach area maps, or safety advisories</p>
+                </div>
+                <div class="facility-item">
+                    <img src="pantai/fasilitas/potospot.jpg" alt="Photo Spots or Observation Decks">
+                    <h5>Photo Spots</h5>
+                    <p>Special areas for taking photos with beach views</p>
+                </div>
+                <div class="facility-item">
+                    <img src="pantai/fasilitas/lodging.jpg" alt="Lodging or Resorts">
+                    <h5>Lodging or Resorts</h5>
+                    <p>Accommodation facilities for visitors who wish to stay near the beach.</p>
+                </div>        
+            </div>
+        </div>
+
+
+        <div id="peta" class="section text-center">
+            <h2>Maps</h2>
+            <img src="icon/adminrembang.png" alt="Thumbnail Peta" class="gallery-item img"
+                class="gallery-item:hover img" style="width: 50%; height: auto; margin-bottom: 20px;">
+            <p style="text-justify: inter-word;">Find beautiful beach locations on our interactive map. Let's explore
+                more about the distribution of beaches in Rembang with MYPHO. Click below here !</p>
+            <button class="btn-custom" onclick="openMap()">View Map</button>
+            <p></p>
+            <p></p>
+            <p></p>
+            <h2>Route</h2>
+            <div class="culture-grid">
+                <div class="culture-item">
+                    <a href="pathol_sarang.html">
+                        <div class="gmap_canvas"><iframe width="300" height="200" id="gmap_canvas"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.1139079059944!2d111.51192747531508!3d-6.6327726933616225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e771fb1d1958f63%3A0x6dcc0abcb947b842!2zUGFudGFpIEphdGlzYXJpIOqmpeqmpOqngOqmoOqmu-qml-qmoOqmtuqmseqmq-qmtg!5e0!3m2!1sid!2sid!4v1734318138023!5m2!1sid!2sid"
+                                frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a
+                                href="https://textcaseconvert.com"></a><br><a
+                                href="https://www.tabclocktab.com"></a><br>
+                            <style>
+                                .mapouter {
+                                    position: relative;
+                                    text-align: center;
+                                    height: 200px;
+                                    width: 100%;
+                                }
+                            </style><a href="https://www.ongooglemaps.com">google maps embed</a>
+                            <style>
+                                .gmap_canvas {
+                                    overflow: hidden;
+                                    background: none !important;
+                                    height: 200px;
+                                    width: 100%;
+                                }
+                            </style>
+                        </div>
+                        <h3>Pantai Jatisari</h3>
+                    </a>
+                </div>
+                <div class="culture-item">
+                    <a href="sedekah_laut.html">
+                        <div class="gmap_canvas"><iframe width="300" height="200" id="gmap_canvas"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.9813884673076!2d111.46422877531512!3d-6.649228193345451!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7721d3b617e9eb%3A0xa53a110805ed85dd!2sPantai%20Binangun!5e0!3m2!1sid!2sid!4v1734320666639!5m2!1sid!2sid"
+                                frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a
+                                href="https://textcaseconvert.com"></a><br><a
+                                href="https://www.tabclocktab.com"></a><br>
+                            <style>
+                                .mapouter {
+                                    position: relative;
+                                    text-align: center;
+                                    height: 200px;
+                                    width: 100%;
+                                }
+                            </style><a href="https://www.ongooglemaps.com">google maps embed</a>
+                            <style>
+                                .gmap_canvas {
+                                    overflow: hidden;
+                                    background: none !important;
+                                    height: 200px;
+                                    width: 100%;
+                                }
+                            </style>
+                        </div>
+                        <h3>Pantai Binangun</h3>
+                    </a>
+                </div>
+                <div class="culture-item">
+                    <a href="tari_gandario.html">
+                        <div class="gmap_canvas"><iframe width="300" height="200" id="gmap_canvas"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.673014197046!2d111.40937897531542!3d-6.687364293307997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7723ee3b1d601d%3A0xcb19b602a4ee84d9!2sPantai%20Karangjahe!5e0!3m2!1sid!2sid!4v1734320772759!5m2!1sid!2sid"
+                                frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a
+                                href="https://textcaseconvert.com"></a><br><a
+                                href="https://www.tabclocktab.com"></a><br>
+                            <style>
+                                .mapouter {
+                                    position: relative;
+                                    text-align: center;
+                                    height: 200px;
+                                    width: 100%;
+                                }
+                            </style><a href="https://www.ongooglemaps.com">google maps embed</a>
+                            <style>
+                                .gmap_canvas {
+                                    overflow: hidden;
+                                    background: none !important;
+                                    height: 200px;
+                                    width: 100%;
+                                }
+                            </style>
+                        </div>
+                        <h3>Pantai Karangjahe</h3>
+                    </a>
+                </div>
+                <div class="culture-item">
+                    <a href="tong_tong_klek.html">
+                        <div class="gmap_canvas"><iframe width="300" height="200" id="gmap_canvas"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.7500162645415!2d111.42713617531534!3d-6.677861893317287!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7721ad948397c9%3A0xbe8ce3084a3ddb27!2sPantai%20Caruban!5e0!3m2!1sid!2sid!4v1734320906465!5m2!1sid!2sid"
+                                frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a
+                                href="https://textcaseconvert.com"></a><br><a
+                                href="https://www.tabclocktab.com"></a><br>
+                            <style>
+                                .mapouter {
+                                    position: relative;
+                                    text-align: center;
+                                    height: 200px;
+                                    width: 100%;
+                                }
+                            </style><a href="https://www.ongooglemaps.com">google maps embed</a>
+                            <style>
+                                .gmap_canvas {
+                                    overflow: hidden;
+                                    background: none !important;
+                                    height: 200px;
+                                    width: 100%;
+                                }
+                            </style>
+                        </div>
+                        <h3>Pantai Caruban</h3>
+                    </a>
+                </div>
+                <div class="culture-item">
+                    <a href="emprak.html">
+                        <div class="gmap_canvas"><iframe width="300" height="200" id="gmap_canvas"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.635060617122!2d111.39767407531542!3d-6.692042993303363!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7723e622276231%3A0x8e6583103492700e!2sWisata%20Pantai%20Nyamplung!5e0!3m2!1sid!2sid!4v1734320953955!5m2!1sid!2sid"
+                                frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a
+                                href="https://textcaseconvert.com"></a><br><a
+                                href="https://www.tabclocktab.com"></a><br>
+                            <style>
+                                .mapouter {
+                                    position: relative;
+                                    text-align: center;
+                                    height: 200px;
+                                    width: 100%;
+                                }
+                            </style><a href="https://www.ongooglemaps.com">google maps embed</a>
+                            <style>
+                                .gmap_canvas {
+                                    overflow: hidden;
+                                    background: none !important;
+                                    height: 200px;
+                                    width: 100%;
+                                }
+                            </style>
+                        </div>
+                        <h3>Pantai Nyamplung</h3>
+                    </a>
+                </div>
+                <div class="culture-item">
+                    <a href="pathol_sarang.html">
+                        <div class="gmap_canvas"><iframe width="300" height="200" id="gmap_canvas"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.7621193554373!2d111.44136787531532!3d-6.6763670933187775!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e772196c4d5b82d%3A0x4657f1031be1cc39!2sPantai%20Dasun!5e0!3m2!1sid!2sid!4v1734321372711!5m2!1sid!2sid"
+                                frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a
+                                href="https://textcaseconvert.com"></a><br><a
+                                href="https://www.tabclocktab.com"></a><br>
+                            <style>
+                                .mapouter {
+                                    position: relative;
+                                    text-align: center;
+                                    height: 200px;
+                                    width: 100%;
+                                }
+                            </style><a href="https://www.ongooglemaps.com">google maps embed</a>
+                            <style>
+                                .gmap_canvas {
+                                    overflow: hidden;
+                                    background: none !important;
+                                    height: 200px;
+                                    width: 100%;
+                                }
+                            </style>
+                        </div>
+                        <h3>Pantai Dasun</h3>
+                    </a>
+                </div>
+                <div class="culture-item">
+                    <a href="sedekah_laut.html">
+                        <div class="gmap_canvas"><iframe width="300" height="200" id="gmap_canvas"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.654516476321!2d111.28009237531546!3d-6.68964499330571!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e77298ce4396145%3A0x79d73300c7c75817!2sPantai%20Pasir%20Putih%20Wates%20Rembang!5e0!3m2!1sid!2sid!4v1734321424477!5m2!1sid!2sid"
+                                frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a
+                                href="https://textcaseconvert.com"></a><br><a
+                                href="https://www.tabclocktab.com"></a><br>
+                            <style>
+                                .mapouter {
+                                    position: relative;
+                                    text-align: center;
+                                    height: 200px;
+                                    width: 100%;
+                                }
+                            </style><a href="https://www.ongooglemaps.com">google maps embed</a>
+                            <style>
+                                .gmap_canvas {
+                                    overflow: hidden;
+                                    background: none !important;
+                                    height: 200px;
+                                    width: 100%;
+                                }
+                            </style>
+                        </div>
+                        <h3>Pantai Wates</h3>
+                    </a>
+                </div>
+                <div class="culture-item">
+                    <a href="tari_gandario.html">
+                        <div class="gmap_canvas"><iframe width="300" height="200" id="gmap_canvas"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.549185581682!2d111.336450281148!3d-6.702617175999431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7725697a590755%3A0x3ff7eca0ae330b2f!2sPANTAI%20DAMPO%20AWANG!5e0!3m2!1sid!2sid!4v1734321480187!5m2!1sid!2sid""
+                            frameborder=" 0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a
+                                href="https://textcaseconvert.com"></a><br><a
+                                href="https://www.tabclocktab.com"></a><br>
+                            <style>
+                                .mapouter {
+                                    position: relative;
+                                    text-align: center;
+                                    height: 200px;
+                                    width: 100%;
+                                }
+                            </style><a href="https://www.ongooglemaps.com">google maps embed</a>
+                            <style>
+                                .gmap_canvas {
+                                    overflow: hidden;
+                                    background: none !important;
+                                    height: 200px;
+                                    width: 100%;
+                                }
+                            </style>
+                        </div>
+                        <h3>Pantai Dampo Awang</h3>
+                    </a>
+                </div>
+                <div class="culture-item">
+                    <a href="tong_tong_klek.html">
+                        <div class="gmap_canvas"><iframe width="300" height="200" id="gmap_canvas"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.7300963244!2d111.60428067531535!3d-6.680321393314891!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e771be4a96dd66f%3A0x5dbd70155ed7ebde!2sWisata%20Pantai%20Balongan!5e0!3m2!1sid!2sid!4v1734321589007!5m2!1sid!2sid"
+                                frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a
+                                href="https://textcaseconvert.com"></a><br><a
+                                href="https://www.tabclocktab.com"></a><br>
+                            <style>
+                                .mapouter {
+                                    position: relative;
+                                    text-align: center;
+                                    height: 200px;
+                                    width: 100%;
+                                }
+                            </style><a href="https://www.ongooglemaps.com">google maps embed</a>
+                            <style>
+                                .gmap_canvas {
+                                    overflow: hidden;
+                                    background: none !important;
+                                    height: 200px;
+                                    width: 100%;
+                                }
+                            </style>
+                        </div>
+                        <h3>Pantai Balongan</h3>
+                    </a>
+                </div>
+                <div class="culture-item">
+                    <a href="emprak.html">
+                        <div class="gmap_canvas"><iframe width="300" height="200" id="gmap_canvas"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15850.47180113023!2d111.38105305285855!3d-6.694151192819943!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7723aac0db167d%3A0xf380d1569882f0bc!2sPantai%20swalan!5e0!3m2!1sid!2sid!4v1734321658565!5m2!1sid!2sid"
+                                frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a
+                                href="https://textcaseconvert.com"></a><br><a
+                                href="https://www.tabclocktab.com"></a><br>
+                            <style>
+                                .mapouter {
+                                    position: relative;
+                                    text-align: center;
+                                    height: 200px;
+                                    width: 100%;
+                                }
+                            </style><a href="https://www.ongooglemaps.com">google maps embed</a>
+                            <style>
+                                .gmap_canvas {
+                                    overflow: hidden;
+                                    background: none !important;
+                                    height: 200px;
+                                    width: 100%;
+                                }
+                            </style>
+                        </div>
+                        <h3>Pantai Swalan</h3>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="kritik-dan-saran" class="section">
+            <h2>Gallery</h2>
+            <p class="gallery-description">Welcome to our Gallery page! Here, we celebrate the vibrant culture and
+                breathtaking landscapes of Rembang. Dive into an immersive visual journey through stunning photos
+                capturing the essence of our coastal paradise. Whether you're admiring the golden sunsets over our
+                pristine beaches, experiencing the lively traditional festivals, or exploring the rich marine life,
+                each
+                image tells a unique story. Let your eyes feast on the beauty and charm of Rembang, where every
+                snapshot
+                is a piece of our heart and heritage. Enjoy the visual feast and feel the spirit of Rembang come
+                alive!
+            </p>
+            <div class="gallery-container">
+                <div class="gallery-item">
+                    <img src="pantai/splashhh.jpeg" alt="Beautiful Beach">
+                    <div class="gallery-caption">Sunset at the Hidden Beach</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="pantai/galeri/dampo.jpg" alt="Pantai Dampo Awang">
+                    <div class="gallery-caption">Pantai Dampo Awang</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="pantai/splash.jpg" alt="Coastal View">
+                    <div class="gallery-caption">Coastal View</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="pantai/galeri/jatisari.jpg" alt="Pantai Jatisari">
+                    <div class="gallery-caption">Pantai Jatisari</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="pantai/galeri/binangun.jpg" alt="Pantai Binangun">
+                    <div class="gallery-caption">Pantai Binangun</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="pantai/galeri/nyamplung.jpg" alt="Pantai Nyamplung">
+                    <div class="gallery-caption">Pantai Nyamplung</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="pantai/galeri/karangjahe.jpg" alt="Pantai Karangjahe">
+                    <div class="gallery-caption">Pantai Karangjahe</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="pantai/galeri/caruban.jpg" alt="Pantai Caruban">
+                    <div class="gallery-caption">Pantai Caruban</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="pantai/galeri/dasun.jpg" alt="Pantai Dasun">
+                    <div class="gallery-caption">Pantai Dasun</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="pantai/galeri/balongan.jpg" alt="Pantai Balongan">
+                    <div class="gallery-caption">Pantai Balongan</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="pantai/galeri/wates.jpg" alt="Pantai Wates">
+                    <div class="gallery-caption">Pantai Wates</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="pantai/galeri/swalan.jpg" alt="Pantai Swalan">
+                    <div class="gallery-caption">Pantai Swalan</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="pembuat" class="section">
+            <div class="section-feedback">
+                <h2>Feedback</h2>
+                <p>Hello! I'm Eka Nafi' Prameysti, the creator behind this project. Your feedback means the world to
+                    me.
+                    Each suggestion and opinion helps me grow and improve what I bring to you. I am deeply committed
+                    to
+                    enhancing your experience and making this platform as engaging and helpful as possible.</p>
+                <p>Thank you for taking the time to share your thoughts. Your input is invaluable, and I truly
+                    appreciate your contribution. Together, let's make this platform better, step by step. I look
+                    forward to reading your feedback!</p>
+                <a href="feedback.html">Write Feedback</a>
+            </div>
+            <div class="section-creator" id="creator-info">
+                <h2>Creator</h2>
+                <img src="icon/creatorr.jpg" alt="Creator Photo" class="creator-photo">
+                <table class="table" style="border: 2px solid #2a3d66; border-collapse: collapse; width: 100%;">
+                    <tr>
+                        <th style="background-color: #2a3d66; color: white;">Name</th>
+                        <td>Eka Nafi' Prameysti</td>
+                    </tr>
+                    <tr>
+                        <th style="background-color: #2a3d66; color: white;">NIM</th>
+                        <td>23/515913/SV/22642</td>
+                    </tr>
+                    <tr>
+                        <th style="background-color: #2a3d66; color: white;">Class</th>
+                        <td>PGWEB A</td>
+                    </tr>
+                    <tr>
+                        <th style="background-color: #2a3d66; color: white;">Bio</th>
+                        <td>I come from Pati, a town in Central Java that is famous for its nickname "Bumi Mina Tani" due to its rich agriculture and fisheries. As someone who loves the beauty of nature, I have a special interest in coastal areas and the surrounding environment. I also like the color blue because it gives a sense of calm, peace, and always reminds me of the vast ocean and clear skies.</td>
+                    </tr>
+                    <tr>
+                        <th style="background-color: #2a3d66; color: white;">GitHub</th>
+                        <td><a href="https://github.com/ekaprameysti" target="_blank"
+                                rel="noopener noreferrer">https://github.com/ekaprameysti</a></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="section-user-feedback" id="user-feedback">
+                <h2>User Feedback</h2>
+                <div class="feedback-list" id="feedback-list">
+                    <!-- Feedback items will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2024 Seaside Symphony | All Rights Reserved</p>
+            <p>Eka Nafi' Prameysti | 23/515913/SV/22642</p>
+        </footer>
+    </div>
+
+
+    <!-- Tambahkan Bootstrap JS dan dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <script>
+        function showMainPage() {
+            document.getElementById('splash-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        }
+
+
+
+
+        function showSection(sectionId) {
+            var sections = document.getElementsByClassName('section');
+            for (var i = 0; i < sections.length; i++) {
+                sections[i].classList.remove('active');
+            }
+            document.getElementById(sectionId).classList.add('active');
+
+        }
+
+    </script>
+    <script>
+        // Tambahkan Event Listener untuk scroll
+        window.addEventListener('scroll', function () {
+            var header = document.querySelector('header');
+            var nav = document.querySelector('.nav');
+            var headerHeight = header.offsetHeight; // Mendapatkan tinggi header
+
+            if (window.scrollY > headerHeight) {
+                nav.classList.add('sticky-nav'); // Tambahkan kelas sticky-nav saat discroll melewati header
+            } else {
+                nav.classList.remove('sticky-nav'); // Hapus kelas sticky-nav saat tidak discroll
+            }
+        });
+    </script>
+    <script>
+        // Tambahkan Event Listener untuk load
+        window.addEventListener('load', function () {
+            // Periksa apakah URL mengandung hash '#kecamatan'
+            if (window.location.hash === '#kecamatan') {
+                // Langsung menampilkan konten utama dan menyembunyikan splash screen
+                document.getElementById('splash-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+
+                // Scroll ke bagian kecamatan
+                var kecamatanSection = document.getElementById('kecamatan');
+                kecamatanSection.scrollIntoView();
+            } else {
+                // Jika tidak ada hash, tetap tampilkan splash screen
+                document.getElementById('splash-screen').style.display = 'flex';
+                document.getElementById('main-content').style.display = 'none';
+            }
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.6.2/proj4.js"></script>
+    <script>
+
+
+        // Load feedback from localStorage and display
+        function loadFeedback() {
+            const feedbackList = JSON.parse(localStorage.getItem('feedbackList')) || [];
+            const feedbackContainer = document.getElementById('feedback-list');
+            feedbackContainer.innerHTML = '';
+
+            feedbackList.forEach(feedback => {
+                const feedbackItem = document.createElement('div');
+                feedbackItem.className = 'feedback-item';
+                feedbackItem.innerHTML = `
+                    <h4>${feedback.name} <span class="email">(${feedback.email})</span></h4>
+                    <p>${feedback.feedback}</p>
+                    <p>Rating: ${feedback.rating} | ${feedback.timestamp}</p>
+                    <button class="edit" onclick="editFeedback(${feedback.id})">Edit</button>
+                    <button class="delete" onclick="deleteFeedback(${feedback.id})">Delete</button>
+                `;
+                feedbackContainer.appendChild(feedbackItem);
+            });
+        }
+
+        // Delete feedback
+        function deleteFeedback(id) {
+            let feedbackList = JSON.parse(localStorage.getItem('feedbackList')) || [];
+            feedbackList = feedbackList.filter(feedback => feedback.id !== id);
+            localStorage.setItem('feedbackList', JSON.stringify(feedbackList));
+            loadFeedback();
+        }
+
+        // Edit feedback
+        function editFeedback(id) {
+            editingFeedbackId = id;
+            let feedbackList = JSON.parse(localStorage.getItem('feedbackList')) || [];
+            let feedback = feedbackList.find(fb => fb.id === id);
+            if (feedback) {
+                localStorage.setItem('editingFeedbackId', id);
+                window.location.href = "feedback.html#edit-feedback";
+            }
+        }
+
+        // Display feedback on page load
+        document.addEventListener('DOMContentLoaded', loadFeedback);
+
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mengambil data dari index.php
+            fetch('index.php')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('content').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+    <script> function openMap() {
+            window.open('map.html', '_blank'); // Buka halaman peta di tab baru 
+        } 
+    </script>
+
+</body>
+
+</html>

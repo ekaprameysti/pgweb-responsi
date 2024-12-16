@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Data Pantai</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #6dd5fa, #2a3d66);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 400px;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            flex: 1;
+            text-align: left;
+            color: #333;
+        }
+        .form-group input[type="text"], .form-group input[type="number"] {
+            flex: 2;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            margin-left: 10px;
+        }
+        input[type="submit"] {
+            background: #2980b9;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+        input[type="submit"]:hover {
+            background: #1a5276;
+        }
+        .back-button {
+            background: #2980b9;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+            width: 100%;
+        }
+        .back-button:hover {
+            background: #1a5276;
+        }
+        #successMessage {
+            display: none;
+            color: green;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Input Data Pantai</h1>
+        <form id="inputForm" method="POST" action="input.php">
+            <div class="form-group">
+                <label for="nama">Nama Pantai:</label>
+                <input type="text" name="nama" required>
+            </div>
+            <div class="form-group">
+                <label for="desa">Desa:</label>
+                <input type="text" name="desa" required>
+            </div>
+            <div class="form-group">
+                <label for="kecamatan">Kecamatan:</label>
+                <input type="text" name="kecamatan" required>
+            </div>
+            <div class="form-group">
+                <label for="latitude">Latitude:</label>
+                <input type="number" step="any" name="latitude" required>
+            </div>
+            <div class="form-group">
+                <label for="longitude">Longitude:</label>
+                <input type="number" step="any" name="longitude" required>
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+        <p id="successMessage">Data berhasil ditambahkan</p>
+        <button class="back-button" onclick="location.href='index.html#website'">Kembali</button>
+    </div>
+    <script>
+        document.getElementById('inputForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var form = this;
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', form.action, true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    document.getElementById('successMessage').style.display = 'block';
+                    setTimeout(function() {
+                        window.location.href = 'index.html#website';
+                    }, 2000);
+                }
+            };
+            var formData = new FormData(form);
+            var encodedData = Array.from(formData.entries()).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
+            xhr.send(encodedData);
+        });
+    </script>
+
+</body>
+</html>

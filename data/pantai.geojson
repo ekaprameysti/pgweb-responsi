@@ -1,0 +1,17 @@
+{
+"type": "FeatureCollection",
+"name": "Pantai_Rembang",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "OID_": 0, "Name": "Pantai Jatisari", "FolderPath": "Temporary Places.kmz/Temporary Places", "SymbolID": 0, "AltMode": -1, "Base": 0.0, "Snippet": null, "PopupInfo": null, "HasLabel": -1, "LabelID": 0 }, "geometry": { "type": "Point", "coordinates": [ 111.514499382000054, -6.632773008999948, 0.0 ] } },
+{ "type": "Feature", "properties": { "OID_": 0, "Name": "Pantai Binangun", "FolderPath": "Temporary Places.kmz/Temporary Places", "SymbolID": 0, "AltMode": -1, "Base": 0.0, "Snippet": null, "PopupInfo": null, "HasLabel": -1, "LabelID": 0 }, "geometry": { "type": "Point", "coordinates": [ 111.466803263000088, -6.649229272999946, 0.0 ] } },
+{ "type": "Feature", "properties": { "OID_": 0, "Name": "Pantai Karangjahe", "FolderPath": "Temporary Places.kmz/Temporary Places", "SymbolID": 0, "AltMode": -1, "Base": 0.0, "Snippet": null, "PopupInfo": null, "HasLabel": -1, "LabelID": 0 }, "geometry": { "type": "Point", "coordinates": [ 111.411947338000061, -6.687370091999981, 0.0 ] } },
+{ "type": "Feature", "properties": { "OID_": 0, "Name": "Pantai Caruban", "FolderPath": "Temporary Places.kmz/Temporary Places", "SymbolID": 0, "AltMode": -1, "Base": 0.0, "Snippet": null, "PopupInfo": null, "HasLabel": -1, "LabelID": 0 }, "geometry": { "type": "Point", "coordinates": [ 111.429708644000073, -6.677865822999934, 0.0 ] } },
+{ "type": "Feature", "properties": { "OID_": 0, "Name": "Pantai Nyamplung", "FolderPath": "Temporary Places.kmz/Temporary Places", "SymbolID": 0, "AltMode": -1, "Base": 0.0, "Snippet": null, "PopupInfo": null, "HasLabel": -1, "LabelID": 0 }, "geometry": { "type": "Point", "coordinates": [ 111.400243453000087, -6.69204741599998, 0.0 ] } },
+{ "type": "Feature", "properties": { "OID_": 0, "Name": "Pantai Dasun", "FolderPath": "Temporary Places.kmz/Temporary Places", "SymbolID": 0, "AltMode": -1, "Base": 0.0, "Snippet": null, "PopupInfo": null, "HasLabel": -1, "LabelID": 0 }, "geometry": { "type": "Point", "coordinates": [ 111.443938960000082, -6.676369693999959, 0.0 ] } },
+{ "type": "Feature", "properties": { "OID_": 0, "Name": "Pantai Wates", "FolderPath": "Temporary Places.kmz/Temporary Places", "SymbolID": 0, "AltMode": -1, "Base": 0.0, "Snippet": null, "PopupInfo": null, "HasLabel": -1, "LabelID": 0 }, "geometry": { "type": "Point", "coordinates": [ 111.28266558200005, -6.689650459999939, 0.0 ] } },
+{ "type": "Feature", "properties": { "OID_": 0, "Name": "Pantai Dampo Awang", "FolderPath": "Temporary Places.kmz/Temporary Places", "SymbolID": 0, "AltMode": -1, "Base": 0.0, "Snippet": null, "PopupInfo": null, "HasLabel": -1, "LabelID": 0 }, "geometry": { "type": "Point", "coordinates": [ 111.341322501000036, -6.70263938599993, 0.0 ] } },
+{ "type": "Feature", "properties": { "OID_": 0, "Name": "Pantai Balongan", "FolderPath": "Temporary Places.kmz/Temporary Places", "SymbolID": 0, "AltMode": -1, "Base": 0.0, "Snippet": null, "PopupInfo": null, "HasLabel": -1, "LabelID": 0 }, "geometry": { "type": "Point", "coordinates": [ 111.606849895000039, -6.680329876999963, 0.0 ] } },
+{ "type": "Feature", "properties": { "OID_": 0, "Name": "Pantai Swalan", "FolderPath": "Temporary Places.kmz/Temporary Places", "SymbolID": 0, "AltMode": -1, "Base": 0.0, "Snippet": null, "PopupInfo": null, "HasLabel": -1, "LabelID": 0 }, "geometry": { "type": "Point", "coordinates": [ 111.393214930000056, -6.694043177999959, 0.0 ] } }
+]
+}

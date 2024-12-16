@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Your Feedback</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff;
+        }
+
+        .section-feedback {
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .section-feedback h2 {
+            color: #007BFF;
+            text-align: center;
+        }
+        .feedback-form label,
+        .feedback-form input,
+        .feedback-form textarea,
+        .feedback-form select,
+        .feedback-form button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+        }
+        .feedback-form input,
+        .feedback-form textarea,
+        .feedback-form select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .feedback-form button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .feedback-form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="section-feedback" id="edit-feedback">
+        <h2>Submit Your Feedback</h2>
+        <form class="feedback-form" onsubmit="submitFeedback(event)">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="feedback">Feedback:</label>
+            <textarea id="feedback" name="feedback" required></textarea>
+
+            <label for="rating">Rating:</label>
+            <select id="rating" name="rating">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+
+            <button type="submit">Submit</button>
+            <button type="reset">Reset</button>
+        </form>
+    </div>
+
+    <script>
+        let feedbackDB = JSON.parse(localStorage.getItem('feedbackList')) || [];
+        let editingFeedbackId = localStorage.getItem('editingFeedbackId');
+
+        // Load feedback data if editing
+        if (editingFeedbackId) {
+            let feedback = feedbackDB.find(fb => fb.id === parseInt(editingFeedbackId));
+            if (feedback) {
+                document.getElementById('name').value = feedback.name;
+                document.getElementById('email').value = feedback.email;
+                document.getElementById('feedback').value = feedback.feedback;
+                document.getElementById('rating').value = feedback.rating;
+            }
+        }
+
+        // Create or Edit: Function to handle form submission
+        function submitFeedback(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const feedback = document.getElementById('feedback').value;
+            const rating = document.getElementById('rating').value;
+            const timestamp = new Date().toLocaleString();
+
+            if (editingFeedbackId) {
+                // Update existing feedback
+                feedbackDB = feedbackDB.map(fb => fb.id === parseInt(editingFeedbackId) ? { id: fb.id, name, email, feedback, rating, timestamp } : fb);
+                editingFeedbackId = null;
+                localStorage.removeItem('editingFeedbackId');
+            } else {
+                // Create new feedback
+                const newFeedback = { id: Date.now(), name, email, feedback, rating, timestamp };
+                feedbackDB.push(newFeedback);
+            }
+
+            localStorage.setItem('feedbackList', JSON.stringify(feedbackDB));
+            alert('Feedback submitted successfully!');
+            window.location.href = "index.html#pembuat"; // Redirect to index.html#feedback-creator
+        }
+    </script>
+</body>
+</html>
