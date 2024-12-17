@@ -27,6 +27,7 @@ Sumber data utama yang digunakan adalah Geoportal Kabupaten Rembang untuk meliha
 ![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023535.png)
 ![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023621.png)
 ![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023641.png)
+![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20024323.png)
 ![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023748.png)
 ![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023814.png)
 ![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023902.png)
@@ -35,5 +36,5 @@ Sumber data utama yang digunakan adalah Geoportal Kabupaten Rembang untuk meliha
 ![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20024023.png)
 ![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20024049.png)
 ![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20024119.png)
-![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20024323.png)
+
 
