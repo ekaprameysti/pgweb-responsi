@@ -16,4 +16,5 @@ Bootstrap: Untuk memperindah tampilan web dengan elemen desain modern.
 Sumber data utama yang digunakan adalah Geoportal Kabupaten Rembang untuk melihat titik-titk wisata di Rembang. Data BPS Kabupaten Rembang untuk membandingkan dan memvalidasi data mengenai nama kecamatan di Rembang.
 
 ### e. Tangkapan Layar Komponen Penting Produk
-![Beranda](https://github.com/ekaprameysti/pgweb-responsi/root/main/pantai/pantai.png)
+Splash Screen
+![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023152.png)
