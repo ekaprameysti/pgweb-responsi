@@ -16,5 +16,24 @@ Bootstrap: Untuk memperindah tampilan web dengan elemen desain modern.
 Sumber data utama yang digunakan adalah Geoportal Kabupaten Rembang untuk melihat titik-titk wisata di Rembang. Data BPS Kabupaten Rembang untuk membandingkan dan memvalidasi data mengenai nama kecamatan di Rembang.
 
 ### e. Tangkapan Layar Komponen Penting Produk
-Splash Screen
+
 ![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023152.png)
+![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023235.png)
+![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023253.png)
+![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023336.png)
+![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023354.png)
+![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023414.png)
+![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023513.png)
+![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023535.png)
+![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023621.png)
+![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023641.png)
+![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023748.png)
+![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023814.png)
+![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023902.png)
+![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023930.png)
+![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023948.png)
+![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20024023.png)
+![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20024049.png)
+![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20024119.png)
+![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20024323.png)
+
