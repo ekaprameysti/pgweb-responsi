@@ -35,6 +35,7 @@ Sumber data utama yang digunakan adalah Geoportal Kabupaten Rembang untuk meliha
 ![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20023948.png)
 ![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20024023.png)
 ![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20024049.png)
+![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202025-01-06%20091101.png)
 ![Splash Screen](https://github.com/ekaprameysti/pgweb-responsi/blob/main/images/Screenshot%202024-12-17%20024119.png)
 
 
